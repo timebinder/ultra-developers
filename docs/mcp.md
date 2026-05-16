@@ -8,9 +8,11 @@ The MCP server is **spec-driven** — it loads the live OpenAPI document at boot
 
 ## Install
 
-The MCP server is currently distributed from source. npm publication as `@ultra-network/mcp` is on the roadmap; until then, run it via `tsx` from the source tree.
+```sh
+npm install -g @ultra-network/mcp
+```
 
-> **Note**: source release is pending — until it lands, request early access via [ultranetwork.co/contact](https://ultranetwork.co/contact). The `claude_desktop_config.json` snippet below works as soon as you have the source path.
+Or invoke without installing via the config below.
 
 ## Configure Claude Code
 
@@ -21,7 +23,7 @@ Add to `~/.claude.json` (or `claude_desktop_config.json` for Claude Desktop):
   "mcpServers": {
     "ultra": {
       "command": "npx",
-      "args": ["-y", "tsx", "/absolute/path/to/ultra-mcp/src/index.ts"],
+      "args": ["-y", "@ultra-network/mcp"],
       "env": {
         "ULTRA_API_KEY": "ulk_yourkey"
       }
@@ -97,9 +99,9 @@ For finer-grained control (no `createBooking`, no `updateTripItem`), use a key w
 
 **MCP server can't be found by Claude Code** — `/mcp` shows the server status. If it's stuck on "connecting", check `~/Library/Logs/Claude/mcp.log` (macOS) for the actual error.
 
-## Source
+## Package
 
-[`packages/ultra-mcp`](https://github.com/timebinder/ultra-network/tree/main/packages/ultra-mcp) — currently in the private monorepo. Source release pending.
+[`@ultra-network/mcp`](https://www.npmjs.com/package/@ultra-network/mcp) on npm. MIT-licensed.
 
 ## Next
 

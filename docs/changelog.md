@@ -20,6 +20,10 @@ Dates are UTC.
 
 **MCP**
 - MCP server refactored to share a common client package with the CLI — no behavior change, but new endpoints now propagate to both surfaces automatically.
+- **Published to npm**: [`@ultra-network/mcp@0.1.0`](https://www.npmjs.com/package/@ultra-network/mcp). `npm install -g @ultra-network/mcp` and configure via `~/.claude.json`.
+
+**CLI**
+- **Published to npm**: [`@ultra-network/cli@0.1.0`](https://www.npmjs.com/package/@ultra-network/cli). `npm install -g @ultra-network/cli` and run `ultra --help`.
 
 **Developer materials**
 - This repo (`timebinder/ultra-developers`) opened with first-cut docs covering getting started, authentication, API reference, MCP, CLI, errors, pagination.
@@ -55,7 +59,6 @@ Dates are UTC.
 - **`POST /api/v1/keys`** — self-serve key minting (currently manual via email). Will return `{ id, prefix, plaintext }` once; only the SHA-256 hash is persisted server-side.
 - **`GET /api/v1/keys`** + **`DELETE /api/v1/keys/{id}`** — list and revoke your own keys.
 - **Webhooks** — push notifications for trip/booking state changes (instead of polling).
-- **`@ultra-network/mcp`** + **`@ultra-network/cli`** on npm — install with one `npm i -g …` instead of running from source.
 - **Official TypeScript SDK** (`@ultra-network/sdk`) — type-safe wrapper over the OpenAPI surface.
 - **Official Python SDK** (`ultra-network`) — for data work, ML pipelines, scripting.
 - **Additional supplier adapters** — `momorooms`, `shiji` (channel managers).

@@ -8,29 +8,24 @@ Like the MCP server, the CLI is **spec-driven** — it loads the live OpenAPI do
 
 ## Install
 
-The CLI is currently distributed from source. npm publication as `@ultra-network/cli` is on the roadmap; until then, run via `tsx` from the source tree.
-
 ```sh
-# Once source is available locally:
-ULTRA_API_KEY=ulk_yourkey npx tsx /path/to/ultra-cli/src/cli.ts --help
+npm install -g @ultra-network/cli
 ```
 
-Add a shell alias to make it feel native:
+Or run without installing:
 
 ```sh
-# ~/.zshrc or ~/.bashrc
-alias ultra='ULTRA_API_KEY="$(cat ~/.config/ultra/key)" npx tsx /path/to/ultra-cli/src/cli.ts'
+npx @ultra-network/cli list_trips --limit=5
 ```
 
 Then:
 
 ```sh
+export ULTRA_API_KEY=ulk_yourkey
 ultra --help
 ultra list_trips --limit=5
-ultra get_trip --id=trip_…
+ultra get_trip --id=<uuid>
 ```
-
-> **Note**: source release is pending — until it lands, request early access via [ultranetwork.co/contact](https://ultranetwork.co/contact).
 
 ## Usage
 
@@ -132,7 +127,7 @@ See [`examples/cli-cookbook.md`](../examples/cli-cookbook.md) for longer recipes
 
 ## Source
 
-[`packages/ultra-cli`](https://github.com/timebinder/ultra-network/tree/main/packages/ultra-cli) — currently in the private monorepo. Source release pending.
+[`@ultra-network/cli`](https://www.npmjs.com/package/@ultra-network/cli) on npm. MIT-licensed.
 
 ## Next
 

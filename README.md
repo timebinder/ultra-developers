@@ -20,8 +20,8 @@ Ultra is a meeting ground for luxury-travel advisors, suppliers, and DMCs. Every
 | Surface | Best for | Status |
 |---|---|---|
 | **REST API** (`/api/v1/*`) | Web apps, server integrations, anything HTTP | GA |
-| **MCP server** | LLM agents (Claude Code, Cursor, Windsurf, custom MCP clients) | Public beta |
-| **CLI** | Operators, scripts, CI pipelines, one-off automation | Public beta |
+| **MCP server** | LLM agents (Claude Code, Cursor, Windsurf, custom MCP clients) | Public beta — [`@ultra-network/mcp`](https://www.npmjs.com/package/@ultra-network/mcp) |
+| **CLI** | Operators, scripts, CI pipelines, one-off automation | Public beta — [`@ultra-network/cli`](https://www.npmjs.com/package/@ultra-network/cli) |
 | **TypeScript SDK** | Type-safe Node / browser integrations | Planned |
 | **Python SDK** | Data work, ML pipelines | Planned |
 
