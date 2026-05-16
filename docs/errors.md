@@ -145,7 +145,7 @@ When something goes wrong:
 1. Capture the full response — status, headers, body
 2. Note the `X-Request-Id` (also in the body's `error.request_id`)
 3. Note when it happened (ISO 8601 timestamp)
-4. Email `office@ultranetwork.co` or [file an issue](https://github.com/timebinder/ultra-developers/issues)
+4. [File an issue](https://github.com/timebinder/ultra-developers/issues) or report via [ultranetwork.co/contact](https://ultranetwork.co/contact)
 
 The `request_id` lets us find the exact request in our logs.
 

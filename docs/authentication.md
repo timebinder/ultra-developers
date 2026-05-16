@@ -12,8 +12,8 @@ Keys start with `ulk_` followed by URL-safe base64. Store them like passwords �
 
 ## Getting a key
 
-Email `office@ultranetwork.co` with:
-- Your name + email (must match an existing Ultra user)
+Request one at [ultranetwork.co/contact](https://ultranetwork.co/contact). Include:
+- Your name + the email of your existing Ultra user account
 - The organization the key should be bound to (or "cross-org" if you're an Ultra admin)
 - A short description of what you're building
 
@@ -84,13 +84,13 @@ The agreement is a one-page click-through inside the Ultra web app (Settings →
 ## Security
 
 - **Never put a key in a browser**. Even with CORS restrictions, client-side keys end up in DevTools, cache snapshots, and screenshots.
-- **Never commit a key to git**. Add `.env*` to `.gitignore`. If you leak one, email `office@ultranetwork.co` and we'll revoke immediately.
+- **Never commit a key to git**. Add `.env*` to `.gitignore`. If you leak one, report it via [ultranetwork.co/contact](https://ultranetwork.co/contact) and we'll revoke immediately.
 - **Rotate periodically**. Manual rotation today — submit a request for a new key, swap it in, and we'll revoke the old one.
 - **Use environment-bound keys** in CI — most CI providers (GitHub Actions, Vercel, CircleCI) have first-class secret storage.
 
 ## Revocation
 
-Email `office@ultranetwork.co` with the key's prefix (`ulk_AbCdEf12` — the first 12 chars are safe to share). We revoke within one business hour during US/EU business days.
+Request revocation at [ultranetwork.co/contact](https://ultranetwork.co/contact) with the key's prefix (`ulk_AbCdEf12` — the first 12 chars are safe to share). We revoke within one business hour during US/EU business days.
 
 A revoked key returns `401 unauthenticated` immediately — server-side check, no caching.
 

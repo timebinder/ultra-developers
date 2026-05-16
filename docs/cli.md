@@ -30,7 +30,7 @@ ultra list_trips --limit=5
 ultra get_trip --id=trip_…
 ```
 
-> **Note**: source release is pending — until it lands, contact `office@ultranetwork.co` for early access.
+> **Note**: source release is pending — until it lands, request early access via [ultranetwork.co/contact](https://ultranetwork.co/contact).
 
 ## Usage
 

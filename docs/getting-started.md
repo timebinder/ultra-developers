@@ -4,7 +4,7 @@ Your first Ultra API call in 60 seconds.
 
 ## 1. Get an API key
 
-Ask `office@ultranetwork.co` for a key. Self-serve key minting is shipping shortly; for now we issue keys manually.
+Request one at [ultranetwork.co/contact](https://ultranetwork.co/contact). Self-serve key minting is shipping shortly; for now we issue keys manually.
 
 A key looks like `ulk_AbCdEf123…`. Treat it like a password — server-side only, never in browser code or client bundles.
 

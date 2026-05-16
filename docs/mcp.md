@@ -10,7 +10,7 @@ The MCP server is **spec-driven** — it loads the live OpenAPI document at boot
 
 The MCP server is currently distributed from source. npm publication as `@ultra-network/mcp` is on the roadmap; until then, run it via `tsx` from the source tree.
 
-> **Note**: source release is pending — until it lands, contact `office@ultranetwork.co` for early access to the source tarball. The `claude_desktop_config.json` snippet below works as soon as you have the source path.
+> **Note**: source release is pending — until it lands, request early access via [ultranetwork.co/contact](https://ultranetwork.co/contact). The `claude_desktop_config.json` snippet below works as soon as you have the source path.
 
 ## Configure Claude Code
 

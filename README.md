@@ -40,8 +40,8 @@ All four are **spec-driven** — they all read the same OpenAPI 3.1 document at 
 
 ## Getting help
 
-- **Bug or request**: [open an issue](https://github.com/timebinder/ultra-developers/issues)
-- **Support**: [office@ultranetwork.co](mailto:office@ultranetwork.co)
+- **Bug or feature request**: [open an issue](https://github.com/timebinder/ultra-developers/issues)
+- **Account, billing, or business enquiry**: [ultranetwork.co/contact](https://ultranetwork.co/contact)
 - **About Ultra**: [ultranetwork.co](https://ultranetwork.co)
 
 ## Licence
