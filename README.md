@@ -4,6 +4,8 @@ Developer resources for the [Ultra Network](https://ultranetwork.co) platform �
 
 Ultra is a meeting ground for luxury-travel advisors, suppliers, and DMCs. Everything you can do in the web app you can also do through these developer surfaces — build agents, automate workflows, integrate with your stack.
 
+> **This repo is the source of truth.** The developer guides shown at [ultranetwork.co/developers/guides](https://ultranetwork.co/developers/guides) build directly from `docs/*.md` in this repo via a git submodule mount in the Ultra Network web app. Pull requests welcome — every accepted edit flows to the live website on the next submodule bump.
+
 ## Start here
 
 - [**Getting started**](./docs/getting-started.md) — your first API call in 60 seconds
