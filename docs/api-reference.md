@@ -84,7 +84,36 @@ Per-resource filters (e.g. `trip_id` on `listBookings`, `category` + `country` o
 
 `hbt`, `drivado`, `nuitee`, `ratestellar`, `saltours`, `mews`, `apaleo`, `tue`, `limohawk`, `oracle_ohip`
 
-The full lifecycle (search → quote → book → confirm) happens inside Ultra; you just supply the `plan_item_id` from a prior trip-builder search. See the [API reference UI](https://ultranetwork.co/api/v1/docs) for per-adapter quirks (Limohawk needs `guest.phone`, Drivado needs both `guest.phone` and `guest.email`, etc.).
+The full lifecycle (search → quote → book → confirm) happens inside Ultra; you supply the `plan_item_id` and Ultra handles the rest.
+
+#### Where `plan_item_id` comes from
+
+The `plan_item_id` is not minted by your code — it's the ID of a row in the trip-builder's plan-items table, created when a search/quote happens against a supplier adapter. Today the canonical way to produce one is:
+
+1. **Open a trip in the Ultra trip builder** (web UI or via an agent operating the trip via MCP/CLI).
+2. **Run a search** for the supplier category you want (hotel, transport, activity). The search hits the supplier adapter, returns rates, and persists each rate as a `plan_item` row associated with the trip.
+3. **Read the plan item's `id`** — that's your `plan_item_id`. The plan item also carries a `bookingContext` payload (rate code, quote token, supplier-specific identifiers) that Ultra uses internally during the book step. You don't construct `bookingContext`; the search step does it for you.
+4. **Pass `plan_item_id` to `POST /bookings`** with `supplier_source` matching the adapter that produced the plan item, plus the per-adapter required guest fields.
+
+A direct `POST /bookings` API for search-and-quote (skipping the trip-builder step) is on the [roadmap](./changelog.md#planned). Until then, the trip-builder is the canonical source of `plan_item_id`s — agents that need to book end-to-end should either operate through the trip-builder via MCP tools, or hand off to a human at the search step.
+
+#### Per-adapter required fields
+
+Each adapter has its own minimum guest payload. The live [Scalar UI](https://ultranetwork.co/api/v1/docs) is the authoritative reference, but the most common requirements:
+
+| Adapter | Always required on `guest` |
+|---|---|
+| `limohawk` | `phone` |
+| `drivado` | `phone`, `email` |
+| `hbt`, `nuitee`, `ratestellar` | `email`, `first_name`, `last_name` |
+| `mews`, `apaleo` | `email`, `first_name`, `last_name`, `nationality` |
+| `saltours`, `tue`, `oracle_ohip` | varies by product — check the spec |
+
+If a required field is missing, the adapter returns `503 upstream_unavailable` with `details.supplier_error` describing which field. See [errors § adapter dispatch](./errors.md#adapter-dispatch-errors-503).
+
+#### Price-tolerance guard
+
+Quotes can drift between the search step and the book step (supplier-side rate changes). Ultra enforces a 5% price-tolerance guard (or $20 floor, whichever is larger): if the re-quoted price at book time exceeds the search-time price by more than the tolerance, the book aborts with `503 upstream_unavailable` and `details.supplier_status = "price_drift"`. To consent to the new price, re-run the trip-builder search to get a fresh `plan_item_id` and retry.
 
 ## SDK generation
 

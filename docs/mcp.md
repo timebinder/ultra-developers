@@ -20,7 +20,13 @@ Or invoke without installing via the config below.
 
 ## Configure Claude Code
 
-Add to `~/.claude.json` (or `claude_desktop_config.json` for Claude Desktop):
+Pick one of three config locations, depending on scope:
+
+- **User-global**: `~/.claude.json` — server available in every project
+- **Project-local**: `.mcp.json` in the project root — server available only when Claude Code runs from that project (good for keeping a project-scoped `ULTRA_API_KEY`)
+- **Claude Desktop**: `claude_desktop_config.json` (location varies by OS — see [Anthropic's docs](https://docs.claude.com))
+
+The shape is the same everywhere:
 
 ```json
 {

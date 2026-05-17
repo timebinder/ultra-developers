@@ -76,6 +76,19 @@ The agreement is a one-page click-through inside the Ultra web app (Settings →
 
 If you're hitting `403 forbidden` on `/trips` or `/bookings` and the key looks valid, the agreement is the first thing to check.
 
+### When `list_suppliers` returns an empty array
+
+A common surprise: `GET /api/v1/suppliers` returns `{ "data": [], "page": { ... } }` with HTTP 200, not an error. An empty list means the visibility gate found nothing the key is authorized to see — not that no suppliers exist.
+
+Walk this checklist in order:
+
+1. **Agent-onboarding agreement signed?** If not, the gate would normally return 403 — but for `list_suppliers` specifically, an unsigned agreement filters everything and returns empty. Check Settings → Agreements.
+2. **Does the key's organization have supplier-onboarding agreements with any suppliers?** Suppliers explicitly grant visibility to specific operator organizations. Visibility is opt-in on the supplier side, not a default. A brand-new operator org sees zero suppliers until at least one supplier extends an agreement.
+3. **Are query filters too narrow?** `category` and `country` are AND-combined. `?category=hotel&country=AQ` likely returns empty because there are no hotels in Antarctica.
+4. **Is the cursor stale?** If you're paginating and seeing empty pages mid-walk, the cursor may reference rows that have been hidden since you started. Re-issue the call without `cursor` to start a fresh walk.
+
+If you've checked all four and still see empty, contact us via [ultranetwork.co/contact](https://ultranetwork.co/contact) with your key prefix (the first 12 chars, `ulk_AbCdEf12`) and we'll diagnose against the live visibility tables.
+
 ## Rate limits
 
 Three independent buckets, each with its own ceiling. Any one tripping returns `429`.
@@ -94,8 +107,19 @@ The per-organization cap is a safety ceiling: an org running multiple parallel i
 
 - **Never put a key in a browser**. Even with CORS restrictions, client-side keys end up in DevTools, cache snapshots, and screenshots.
 - **Never commit a key to git**. Add `.env*` to `.gitignore`. If you leak one, report it via [ultranetwork.co/contact](https://ultranetwork.co/contact) and we'll revoke immediately.
-- **Rotate periodically**. Manual rotation today — submit a request for a new key, swap it in, and we'll revoke the old one.
 - **Use environment-bound keys** in CI — most CI providers (GitHub Actions, Vercel, CircleCI) have first-class secret storage.
+- **Rotate periodically** — see below.
+
+## Key rotation
+
+Rotation is manual today (the [self-serve `POST /api/v1/keys`](./changelog.md#planned) endpoint is on the roadmap). Until it ships, the zero-downtime workflow is:
+
+1. **Request a new key** via [ultranetwork.co/contact](https://ultranetwork.co/contact) with the prefix of the key you're replacing (`ulk_AbCdEf12`). We issue the new key bound to the same organization with the same scopes.
+2. **Both keys are active simultaneously** during the overlap window — we do not revoke the old key when we issue the new one. This is intentional: you control the cutover.
+3. **Deploy the new key** to your secret store, CI, and any other consumers. Verify by checking `X-Request-Id` traffic for the new key prefix.
+4. **Tell us to revoke the old key** via [ultranetwork.co/contact](https://ultranetwork.co/contact) when you're confident nothing is still using it. We revoke within one business hour during US/EU business days.
+
+There is no fixed overlap deadline — old keys stay active until you request revocation. For automated quarterly rotation, hold the overlap for at least one full deployment cycle plus your slowest cron's period (a key only used by a weekly job needs more overlap than one used by a 5-minute webhook).
 
 ## Revocation
 
