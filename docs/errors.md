@@ -25,14 +25,13 @@ Every error response from `/api/v1/*` follows the same envelope. You can rely on
 
 ## HTTP status mapping
 
-| Status | When it fires | Notable codes |
+| Status | When it fires | Code |
 |---|---|---|
-| `400` | Input failed validation, semantic precondition violated | `validation_failed`, `invalid_state_transition` |
+| `400` | Input failed validation, semantic precondition violated | `validation_failed` |
 | `401` | Missing, invalid, or revoked API key | `unauthenticated` |
-| `403` | Valid key, but lacks scope or hasn't signed required agreement | `forbidden`, `agent_onboarding_required` |
+| `403` | Valid key, but lacks scope or owner hasn't signed required agreement | `forbidden` |
 | `404` | Resource doesn't exist OR isn't visible to this key (we don't tell you which) | `not_found` |
-| `409` | Concurrent write conflict, optimistic concurrency exhausted (3 retries) | `concurrent_modification` |
-| `422` | Body parsed but semantically wrong (rare — most validation is 400) | `unprocessable` |
+| `409` | Concurrent write conflict, optimistic concurrency exhausted (3 retries) | `conflict` |
 | `429` | Rate limit exceeded | `rate_limited` |
 | `500` | Server bug. File an issue with the `request_id`. | `internal_error` |
 | `503` | Adapter dispatch failed — supplier API rejected the call | `upstream_unavailable` |
@@ -136,8 +135,7 @@ When `details.field` is present it points at the exact JSON path of the failing 
 | Code | Meaning | Fix |
 |---|---|---|
 | `unauthenticated` | Missing, malformed, or revoked key | Check `ULTRA_API_KEY`; if revoked, request a new one |
-| `forbidden` | Key lacks required scope for this operation | Mint a new key with the right scopes |
-| `agent_onboarding_required` | Key owner hasn't signed the Ultra Agent Onboarding agreement | Sign in to ultranetwork.co → Settings → Agreements |
+| `forbidden` | Key lacks required scope, OR key owner hasn't signed the Ultra Agent Onboarding agreement | Mint a new key with the right scopes, or sign in to ultranetwork.co → Settings → Agreements. The `error.message` distinguishes between the two cases. |
 
 ## Reporting issues
 

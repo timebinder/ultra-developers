@@ -68,6 +68,16 @@ Every request needs `Authorization: Bearer ulk_yourkey`. See [Authentication](./
 | `GET` | `/bookings/{id}` | `getBooking` | Get one booking |
 | `PATCH` | `/bookings/{id}` | `updateBooking` | Update status / payment / supplier ID / voucher — including cancellation through adapters |
 
+### Common list parameters
+
+Every list operation (`listTrips`, `listBookings`, `listSuppliers`) accepts:
+
+- `limit` — page size (default 25, max 100)
+- `cursor` — opaque keyset cursor from a prior response's `next_cursor` (see [pagination](./pagination.md))
+- `updated_since` — ISO 8601 timestamp; returns only resources with `updated_at > updated_since`. Use it for incremental sync — store the latest `updated_at` you've processed, replay it as `updated_since` on the next run.
+
+Per-resource filters (e.g. `trip_id` on `listBookings`, `category` + `country` on `listSuppliers`) are documented in the [live spec](https://ultranetwork.co/api/v1/docs).
+
 ### Booking adapter dispatch
 
 `POST /bookings` and `PATCH /bookings/{id}` (for cancellation) can dispatch to live supplier APIs by setting `supplier_source` to one of:

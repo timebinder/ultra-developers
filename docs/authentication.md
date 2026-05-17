@@ -68,18 +68,25 @@ Fine-grained scopes are honored by the server but not yet selectable at key-mint
 
 ## Agent-onboarding agreement
 
-Before a key can read supplier data, the key's owner must have signed the **Ultra Agent Onboarding** agreement. Without it, `/api/v1/suppliers/*` returns 403 with `error.code = "agent_onboarding_required"`.
+Before a key can be used at all, the key's owner must have signed the **Ultra Agent Onboarding** agreement. The check fires at authentication time on **every** `/api/v1/*` endpoint — not just supplier endpoints. Without the signed agreement, requests return `403 forbidden` with an `error.message` explaining the gate.
 
-The agreement is a one-page click-through inside the Ultra web app (Settings → Agreements). It governs how third-party agents (your integration) may surface supplier data to end users. Ultra-issued keys for direct human use bypass this gate.
+The agreement is a one-page click-through inside the Ultra web app (Settings → Agreements). It governs how third-party agents (your integration) may surface Ultra data — most importantly the supplier network — to end users. Keys with the wildcard scope (`*`) issued for Ultra-internal tooling bypass this gate.
+
+If you're hitting `403 forbidden` on `/trips` or `/bookings` and the key looks valid, the agreement is the first thing to check.
 
 ## Rate limits
 
-| Tier | Burst | Sustained |
-|---|---|---|
-| All org-bound keys | 60 / minute | 1000 / hour |
-| Cross-org master keys | 120 / minute | 5000 / hour |
+Three independent buckets, each with its own ceiling. Any one tripping returns `429`.
 
-429 responses include `Retry-After` (seconds) and the standard error envelope. The CLI and SDKs do not automatically retry — backoff is your application's responsibility.
+| Bucket | Burst | Sustained |
+|---|---|---|
+| Per org-bound key | 60 / minute | 1000 / hour |
+| Per cross-org master key | 120 / minute | 5000 / hour |
+| Per organization (sum across all keys it owns) | — | 10,000 / hour |
+
+The per-organization cap is a safety ceiling: an org running multiple parallel integrations cannot exceed 10,000 requests/hour in aggregate, even if no single key has hit its own limit. Plan parallel workers against this combined budget.
+
+429 responses include `Retry-After` (seconds) and the standard error envelope. The `Retry-After` value is the window length of the bucket you tripped — sleep at least that long before retrying. The CLI and SDKs do not automatically retry — backoff is your application's responsibility.
 
 ## Security
 
