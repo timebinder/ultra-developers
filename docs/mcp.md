@@ -1,10 +1,14 @@
 # MCP server
 
-The Ultra MCP server exposes every `/api/v1/*` operation as an [MCP](https://modelcontextprotocol.io) tool. Drop it into any MCP-compatible client (Claude Code, Cursor, Windsurf, Zed, custom clients) and the LLM can read trips, list suppliers, create bookings — anything the API can do.
+The Ultra MCP server turns every `/api/v1/*` operation into a tool any LLM can call. A travel-agent AI inside Claude Code can read an itinerary, check supplier availability, append a flight, and record a confirmed booking — all without writing a line of HTTP code. That's the point: the operator describes the trip in natural language, the agent does the work against Ultra, the human approves.
+
+Drop the server into any MCP-compatible client — Claude Code, Cursor, Windsurf, Zed, custom clients — and every endpoint becomes a tool the model can reach for.
 
 ## Why MCP
 
-The MCP server is **spec-driven** — it loads the live OpenAPI document at boot and registers one tool per operation. When we ship a new endpoint, the next time you restart the MCP server it appears as a new tool. No MCP code changes, no client updates.
+The MCP server is **spec-driven** — it loads the live OpenAPI document at boot and registers one tool per operation. When we ship a new endpoint, the next time you restart the MCP server it appears as a new tool. No MCP code changes, no client updates. Your agent grows as the platform grows.
+
+This is the structural bet: agents and humans need to share the same operations on the same data, and the spec is the contract that keeps both honest. The CLI ships from the same spec for the same reason — humans at terminals and agents in chat windows hit the same surface, with the same auth and the same guarantees.
 
 ## Install
 
@@ -77,7 +81,7 @@ To expose only a subset of operations (e.g. read-only):
   "mcpServers": {
     "ultra-readonly": {
       "command": "npx",
-      "args": ["-y", "tsx", "/path/to/ultra-mcp/src/index.ts"],
+      "args": ["-y", "@ultra-network/mcp"],
       "env": {
         "ULTRA_API_KEY": "ulk_yourkey",
         "ULTRA_API_TAGS": "Trips,Suppliers"

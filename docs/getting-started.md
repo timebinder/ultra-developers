@@ -53,9 +53,9 @@ Now you have a working key, choose the surface that fits your use case:
 - **Build an agent** — install the [MCP server](./mcp.md) in Claude Code / Cursor / Windsurf. Every endpoint becomes a tool the LLM can call.
 - **Scripts & CI** — install the [CLI](./cli.md). Every endpoint becomes a subcommand: `ultra list_trips --limit=5`.
 
-## What you can do today
+## What you can build today
 
-The v1 surface covers:
+13 operations across three resources, composing into the workflows a real travel-agent business runs end-to-end. Read a client's trip, append a hotel, dispatch a booking through one of ten supplier integrations, surface the confirmation back to the operator. The same operations work from your backend, your shell, your CI pipeline, or your LLM-powered agent — one OpenAPI spec, four ways to reach it.
 
 | Resource | Operations |
 |---|---|
@@ -63,7 +63,7 @@ The v1 surface covers:
 | **Suppliers** | list, get |
 | **Bookings** | list, create (manual + adapter dispatch through 10 supplier integrations), get, update (incl. cancel-via-adapter) |
 
-Coming soon: webhooks, key-minting API, more supplier-adapter coverage. See the [changelog](./changelog.md).
+Coming next: webhooks (push-driven agent workflows, no polling), self-serve key minting, more supplier-adapter coverage, official TypeScript and Python SDKs. See the [changelog](./changelog.md).
 
 ## Conventions
 

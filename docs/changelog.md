@@ -57,14 +57,16 @@ Dates are UTC.
 
 ## Planned
 
-- **`POST /api/v1/keys`** — self-serve key minting (currently manual via email). Will return `{ id, prefix, plaintext }` once; only the SHA-256 hash is persisted server-side.
-- **`GET /api/v1/keys`** + **`DELETE /api/v1/keys/{id}`** — list and revoke your own keys.
-- **Webhooks** — push notifications for trip/booking state changes (instead of polling).
-- **Official TypeScript SDK** (`@ultra-network/sdk`) — type-safe wrapper over the OpenAPI surface.
-- **Official Python SDK** (`ultra-network`) — for data work, ML pipelines, scripting.
-- **Additional supplier adapters** — `momorooms`, `shiji` (channel managers).
+The next wave is about making Ultra the substrate for autonomous and semi-autonomous travel workflows — agents that act on their own, agents that hand back to humans at the right moments, and the plumbing that lets both coordinate.
 
-Subscribe to this repo's releases for shipping notifications.
+- **Webhooks** — push notifications for trip, item, and booking state changes. Today integrations poll; webhooks let agents react. An agent waiting on a supplier confirmation doesn't ask every 30 seconds — it gets told the moment the answer arrives. This is the shift from query-response integrations to event-driven ones, and it's the step that makes long-running autonomous workflows practical.
+- **`POST /api/v1/keys`** — self-serve key minting. Operators (and the agents acting on their behalf) provision scoped keys without waiting on us. Returns `{ id, prefix, plaintext }` once; only the SHA-256 hash is persisted server-side.
+- **`GET /api/v1/keys`** + **`DELETE /api/v1/keys/{id}`** — list and revoke your own keys. Programmatic key lifecycle is the prerequisite for agents that mint scoped, short-lived credentials for sub-tasks.
+- **Official TypeScript SDK** (`@ultra-network/sdk`) — type-safe wrapper over the OpenAPI surface. Auto-generated, type-checked end-to-end.
+- **Official Python SDK** (`ultra-network`) — for data work, ML pipelines, and scripted agents.
+- **Additional supplier adapters** — `momorooms`, `shiji` (channel managers), and more. Every new adapter widens what an agent can book end-to-end without leaving Ultra.
+
+Subscribe to this repo's releases for shipping notifications. The direction is steady: every release should make the surface easier for agents and humans to work on together.
 
 ---
 

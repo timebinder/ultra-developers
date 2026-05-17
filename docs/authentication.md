@@ -68,7 +68,9 @@ Fine-grained scopes are honored by the server but not yet selectable at key-mint
 
 ## Agent-onboarding agreement
 
-Before a key can be used at all, the key's owner must have signed the **Ultra Agent Onboarding** agreement. The check fires at authentication time on **every** `/api/v1/*` endpoint — not just supplier endpoints. Without the signed agreement, requests return `403 forbidden` with an `error.message` explaining the gate.
+The Ultra Agent Onboarding agreement is the handshake between your integration and the Ultra ecosystem — it's how human operators, suppliers, and agents (yours and others) coexist on the same network. Suppliers extend visibility to operators they trust; operators extend that trust to the agents they authorize. The agreement is what makes those chains of trust workable across thousands of organizations and an open agent surface.
+
+Before a key can be used at all, the key's owner must have signed it. The check fires at authentication time on **every** `/api/v1/*` endpoint — not just supplier endpoints. Without the signed agreement, requests return `403 forbidden` with an `error.message` explaining the gate.
 
 The agreement is a one-page click-through inside the Ultra web app (Settings → Agreements). It governs how third-party agents (your integration) may surface Ultra data — most importantly the supplier network — to end users. Keys with the wildcard scope (`*`) issued for Ultra-internal tooling bypass this gate.
 

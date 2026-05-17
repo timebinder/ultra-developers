@@ -77,6 +77,8 @@ Common causes:
 
 Mutating endpoints (`PATCH`, child-resource `POST` like `appendTripItem`) use optimistic concurrency. The server checks `updated_at` matches what it read at the start of the operation; if another writer landed first, it retries up to 3 times then returns 409.
 
+In agentic workflows a 409 usually means two writers — often a human and an agent — are editing the same trip simultaneously. The right response depends on the situation: an agent acting on a clear instruction can re-fetch and retry; an agent operating speculatively should surface the conflict to the human rather than silently overwriting their work. Treat 409 as a coordination signal, not just a transient error.
+
 If you see a 409:
 1. Re-fetch the resource (`GET /trips/{id}`)
 2. Apply your change against the new state
