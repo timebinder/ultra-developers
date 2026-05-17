@@ -86,28 +86,29 @@ If you see a 409:
 
 ## Rate limits (429)
 
-When you exceed your tier's burst or sustained limit:
+When you exceed your burst or sustained limit:
 
 ```
 HTTP/1.1 429 Too Many Requests
-Retry-After: 12
+Retry-After: 60
 Content-Type: application/json
 
 {
   "error": {
     "code": "rate_limited",
-    "message": "Rate limit exceeded. Retry after 12 seconds.",
+    "message": "Rate limit exceeded. Retry after the window resets.",
     "request_id": "req_…",
-    "details": { "retry_after_seconds": 12 }
+    "details": { "retry_after_seconds": 60 }
   }
 }
 ```
 
-- Respect `Retry-After` — sleep for at least that many seconds before retrying
+- `Retry-After` is the window length of the bucket you tripped — sleep at least that many seconds before retrying
+- Both the per-minute and per-hour buckets are independent: a 429 with `retry_after_seconds: 3600` means you hit the hour ceiling
 - The CLI and SDKs do not auto-retry — backoff is your application's responsibility
 - For sync jobs: build in exponential backoff with jitter from the start
 
-See [authentication § rate limits](./authentication.md#rate-limits) for tier ceilings.
+See [authentication § rate limits](./authentication.md#rate-limits) for the actual ceilings.
 
 ## Validation errors (400)
 

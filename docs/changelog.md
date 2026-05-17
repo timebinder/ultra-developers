@@ -11,6 +11,7 @@ Dates are UTC.
 ## 2026-05-16
 
 **API**
+- **Rate limiting is now enforced** on every `/api/v1/*` endpoint. Org-bound keys: 60/min + 1000/hour. Cross-org master keys: 120/min + 5000/hour. Per-org safety cap of 10,000/hour across all keys an org issues. Exceeded buckets return `429 rate_limited` with `Retry-After`. See [authentication § rate limits](./authentication.md#rate-limits).
 - Clean `operationId` on every operation: `listTrips`, `createTrip`, `getTrip`, `listTripItems`, `appendTripItem`, `updateTripItem`, `deleteTripItem`, `listSuppliers`, `getSupplier`, `listBookings`, `createBooking`, `getBooking`, `updateBooking`. These propagate through to MCP tool names and CLI subcommand names automatically.
 - `/api/v1/openapi.json` is now served dynamically — `servers[0].url` correctly reflects the request origin (was leaking `http://localhost:3000` from build-time rendering).
 
