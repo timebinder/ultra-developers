@@ -17,7 +17,7 @@ Request one at [ultranetwork.co/contact](https://ultranetwork.co/contact). Inclu
 - The organization the key should be bound to (or "cross-org" if you're an Ultra admin)
 - A short description of what you're building
 
-Self-serve key minting via `POST /api/v1/keys` is on the roadmap. Until then we issue keys manually within one business day.
+You can also create a key yourself in the Ultra web app under **Settings → API keys**; it is bound to your firm.
 
 ## Key binding
 
@@ -63,8 +63,9 @@ Every key carries a `scopes` array. Current scopes:
 - `trips:read`, `trips:write`
 - `suppliers:read`
 - `bookings:read`, `bookings:write`
+- `requests:read`, `requests:write` — for a concierge team's own app; see [your own app](./team-apps.md)
 
-Fine-grained scopes are honored by the server but not yet selectable at key-mint time. Until then every issued key has `["*"]`.
+Choose scopes when you create a key in the Ultra web app under **Settings → API keys**.
 
 ## Agent-onboarding agreement
 
