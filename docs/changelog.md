@@ -8,6 +8,17 @@ Dates are UTC.
 
 ---
 
+## 2026-10-31
+
+**API**
+- **Your own app** — for a concierge team with its own customer app. New operations: `createTeamRequest` (`POST /team/requests`), `getTeamRequest`, `listTeamRequestReplies` (`GET /team/requests/{id}/replies`), `createTeamRequestMessage` (`POST /team/requests/{id}/messages`), and `getTeamWebhook` / `setTeamWebhook` / `removeTeamWebhook` (`/team/webhook`). New scopes `requests:read` and `requests:write`; every operation needs a key bound to your firm. Team replies are delivered to your webhook signed with `X-Ultra-Signature` over `<timestamp>.<body>`. See [your own app](./team-apps.md).
+- Settings → API keys no longer issues a key to someone who is not attached to a firm; such a key could otherwise read across firms.
+
+**SDK**
+- `@ultra-network/sdk-ts` 0.2.0: `teamRequests.create/get/replies/sendMessage`, `teamWebhook.get/set/remove`, and `verifyUltraWebhook`.
+
+---
+
 ## 2026-05-16
 
 **API**
