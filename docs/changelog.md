@@ -8,6 +8,18 @@ Dates are UTC.
 
 ---
 
+## 2026-11-05
+
+**API**
+- **Corporate teams** — keep your HR or customer system in step with Ultra. New operations: `listClientAccounts`, `createClientAccount`, `getClientAccount`, `updateClientAccount` (`/client-accounts`) and `listClients`, `createClient`, `getClient`, `updateClient` (`/clients`); `listTrips` accepts `client_account_id`. New scopes `client_accounts:read`, `client_accounts:write`, `clients:read`, `clients:write`. `createClient` returns an existing client with the same email (`200`) instead of making a duplicate. See [corporate teams](./corporate-teams.md).
+- **A key reaches what its owner reaches in Ultra**, on every operation that reads clients, trips or bookings: a key owned by an agent assigned to particular companies sees only those companies'. A key whose owner no longer has an account, or has left the key's firm, is refused (`403`).
+- A `cursor` that is not one Ultra issued is ignored, returning the first page.
+
+**SDK**
+- `@ultra-network/sdk-ts` 0.3.0: `clientAccounts.list/create/get/update`, `clients.list/create/get/update`, and `client_account_id` on `trips.list`.
+
+---
+
 ## 2026-10-31
 
 **API**

@@ -28,6 +28,8 @@ You can also create a key yourself in the Ultra web app under **Settings → API
 
 99% of integrations use **org-bound** keys. Cross-org master keys are reserved for Ultra-internal tooling and partner reporting.
 
+**A key reaches what its owner reaches in Ultra.** Inside the firm, a key owned by an agent the head of the firm has assigned to particular client companies sees only those companies' clients, trips and bookings; everyone else's keys see the whole firm. A key whose owner no longer has an Ultra account, or is no longer a member of the key's firm, is refused with `403`.
+
 ### Org-bound keys
 
 The simpler case. Your `organization_id` is inferred from the key, so you never pass it as a parameter:
@@ -64,6 +66,7 @@ Every key carries a `scopes` array. Current scopes:
 - `suppliers:read`
 - `bookings:read`, `bookings:write`
 - `requests:read`, `requests:write` — for a concierge team's own app; see [your own app](./team-apps.md)
+- `client_accounts:read`, `client_accounts:write`, `clients:read`, `clients:write` — your firm's client companies, partners and clients; see [corporate teams](./corporate-teams.md)
 
 Choose scopes when you create a key in the Ultra web app under **Settings → API keys**.
 
@@ -74,6 +77,8 @@ The Ultra Agent Onboarding agreement is the handshake between your integration a
 Before a key can be used at all, the key's owner must have signed it. The check fires at authentication time on **every** `/api/v1/*` endpoint — not just supplier endpoints. Without the signed agreement, requests return `403 forbidden` with an `error.message` explaining the gate.
 
 The agreement is a one-page click-through inside the Ultra web app (Settings → Agreements). It governs how third-party agents (your integration) may surface Ultra data — most importantly the supplier network — to end users. Keys with the wildcard scope (`*`) issued for Ultra-internal tooling bypass this gate.
+
+A corporate concierge team signs its own Corporate Concierge Agreement instead; it satisfies this check in the same way.
 
 If you're hitting `403 forbidden` on `/trips` or `/bookings` and the key looks valid, the agreement is the first thing to check.
 

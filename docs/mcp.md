@@ -75,6 +75,14 @@ Tool names are derived from `operationId`, snake-cased:
 | `createBooking` | `create_booking` | Create a booking (manual or adapter dispatch) |
 | `getBooking` | `get_booking` | Get a booking |
 | `updateBooking` | `update_booking` | Update status / payment / cancel via adapter |
+| `listClientAccounts` | `list_client_accounts` | List your firm's client companies and partners |
+| `createClientAccount` | `create_client_account` | Add a company or partner |
+| `getClientAccount` | `get_client_account` | Get a company or partner |
+| `updateClientAccount` | `update_client_account` | Rename a company or change its reference |
+| `listClients` | `list_clients` | List clients, by company or email |
+| `createClient` | `create_client` | Add a client (an existing email returns that client) |
+| `getClient` | `get_client` | Get a client |
+| `updateClient` | `update_client` | Change a client's details or company |
 
 Each tool's `inputSchema` is derived from the OpenAPI schema — path params, query params, and request body all surface at the top level so the LLM knows what to send.
 
